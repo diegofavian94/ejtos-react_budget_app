@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { AppContext } from '../context/AppContext';
 
 const AllocationForm = (props) => {
-    const { dispatch,remaining  } = useContext(AppContext);
+    const { dispatch,remaining, currency } = useContext(AppContext);
 
     const [name, setName] = useState('');
     const [cost, setCost] = useState('');
@@ -10,7 +10,13 @@ const AllocationForm = (props) => {
 
     const submitEvent = () => {
 
-            if(cost > remaining) {
+        if(isNaN(cost)) {
+            alert("El valor sólo puede ser un número")
+            setCost("")
+            return
+        };        
+
+        if(cost > remaining) {
                 alert("El valor no puede exceder los fondos restantes $"+remaining);
                 setCost("");
                 return;
@@ -58,16 +64,16 @@ const AllocationForm = (props) => {
                         <option defaultValue value="Add" name="Add">Añadir</option>
                 <option value="Reduce" name="Reduce">Reducir</option>
                   </select>
-
+                    <span style={{ marginLeft: '2rem'}}>{currency}</span>
                     <input
                         required='required'
-                        type='number'
+                        type='text'
                         id='cost'
                         value={cost}
-                        style={{ marginLeft: '2rem' , size: 10}}
-                        onChange={(event) => setCost(event.target.value)}>
-                        </input>
-
+                        style={{size: 10}}
+                        onChange={(event) => setCost(event.target.value.replace(/[a-zA-Z]/ig, ""))}
+                    >
+                        </input>                    
                     <button className="btn btn-primary" onClick={submitEvent} style={{ marginLeft: '2rem' }}>
                         Guardar
                     </button>

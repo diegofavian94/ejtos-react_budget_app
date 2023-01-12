@@ -15,8 +15,7 @@ const ExpenseList = () => {
               <th scope="col">Eliminar</th>
             </tr>
           </thead>
-            <tbody>
-            {console.log(expenses)}
+            <tbody>            
             {expenses.map((expense) => (
                 <ExpenseItem id={expense.id} key={expense.id} name={expense.name} cost={expense.cost} />
             ))}
